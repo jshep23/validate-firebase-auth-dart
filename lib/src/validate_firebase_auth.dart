@@ -70,9 +70,8 @@ class FirebaseAuthValidator {
             platformWrapper: _platformWrapper,
             httpClient: _httpClient,
           );
-      final issuer =
-          await Issuer.discover(Issuer.firebase(calculatedProjectId));
-      client = Client(issuer, projectId);
+      final issuer = await Issuer.discover(Issuer.firebase(calculatedProjectId));
+      client = Client(issuer, calculatedProjectId);
     }
   }
 
@@ -98,8 +97,7 @@ class FirebaseAuthValidator {
       throw Exception('Validating ID token failed: $e');
     }
 
-    if (!(credential.idToken.claims.subject.isNotEmpty &&
-        credential.idToken.claims.subject.length <= 128)) {
+    if (!(credential.idToken.claims.subject.isNotEmpty && credential.idToken.claims.subject.length <= 128)) {
       throw Exception(
         'ID token has "sub" (subject) claim which is not a valid uid',
       );
